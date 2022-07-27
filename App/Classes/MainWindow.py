@@ -1,5 +1,6 @@
 from __future__ import annotations
 from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QPushButton
 
 
 import App.App as App
@@ -13,5 +14,14 @@ class MainWindow(QMainWindow):
         self.app = app
         self.action: Action.Action = None
 
+        self.set_up()
+
     def set_up_relations(self) -> None:
         self.action = self.app.action
+
+    def set_up(self):
+        self.setFixedSize(100, 100)
+        self.btn = QPushButton(parent=self, text="Click me")
+        self.btn.move(10, 10)
+        self.btn.setFixedSize(50, 50)
+
