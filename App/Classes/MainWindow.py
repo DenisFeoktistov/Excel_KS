@@ -8,17 +8,14 @@ import App.App as App
 import App.Classes.Action as Action
 
 
-"❌"
-"✔"
-
-
 class Color:
-    main2 = "rgb(211, 211, 211)"
     main1 = "rgb(231, 231, 231)"
+    main2 = "rgb(211, 211, 211)"
 
 
 class MainWindow(QMainWindow):
     REL_WIDTH, REL_HEIGHT = 0.3, 0.3
+
     def __init__(self, app: App.App) -> None:
         super().__init__()
 
@@ -130,7 +127,7 @@ class MainWindow(QMainWindow):
             QPushButton {{
                 border: 2px solid black; 
                 border-radius: 5px; 
-                font-size: 20px; 
+                font-size: 25px; 
                 font-weight: 200; 
                 background: {Color.main1};
             }}
@@ -141,20 +138,20 @@ class MainWindow(QMainWindow):
         )
 
     def set_up_file_select_label(self):
-        self.file_select_label.setText("❌")
+        self.file_select_label.setText("✗")
 
-        self.file_select_label.setFixedSize(70, 70)
-        self.file_select_label.move(370, 5)
+        self.file_select_label.setFixedSize(50, 50)
+        self.file_select_label.move(380, 15)
 
         self.file_select_label.setStyleSheet(
             f"border: 1px solid black; border-radius: 5px; font-size: 30px; font-weight: 200; background: {Color.main1}; color: red;")
         self.file_select_label.setAlignment(QtCore.Qt.AlignCenter)
 
     def set_up_output_file_select_label(self):
-        self.output_file_select_label.setText("✔")
+        self.output_file_select_label.setText("✓")
 
-        self.output_file_select_label.setFixedSize(70, 70)
-        self.output_file_select_label.move(370, 100)
+        self.output_file_select_label.setFixedSize(50, 50)
+        self.output_file_select_label.move(380, 110)
 
         self.output_file_select_label.setStyleSheet(
             f"border: 1px solid black; border-radius: 5px; font-size: 30px; font-weight: 200; background: {Color.main1}; color: green;")
