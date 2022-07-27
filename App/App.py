@@ -1,16 +1,27 @@
+from __future__ import annotations
 from typing import Any
+from PyQt5.QtWidgets import QApplication
 
 
-from Action.Action import Action
-from Domain.Domain import Domain
-from Responder.Responder import Responder
+from App.Classes.Action import Action
+from App.Classes.Responder import Responder
+from App.Classes.MainWindow import MainWindow
 
 
-class App:
+class App(QApplication):
     def __init__(self, args: Any) -> None:
-        self.action = Action()
-        self.domain = Domain()
-        self.responder = Responder()
+        super().__init__(args)
+
+        self.main_window = MainWindow(self)
+
+        self.action = Action(self)
+        self.responder = Responder(self)
+
+        self.set_up_relations()
+
+    def set_up_relations(self) -> None:
+        self.action.set_up_relations()
+        self.responder.set_up_relations()
 
     def start(self) -> None:
-        pass
+        self.main_window.show()
