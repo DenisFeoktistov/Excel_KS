@@ -6,39 +6,55 @@ import os
 import pandas as pd
 
 
+EPS = 1e-6
+
+ITEMS = list(filter(lambda x: x, open("ParametersData/items", encoding="utf-8").read().strip().split("\t")))
+CATEGORIES = list(filter(lambda x: x, open("ParametersData/categories", encoding="utf-8").read().split("\n")))
+# print(ITEMS)
+# print(CATEGORIES)
+
+
+class Messages:
+    FILES = "Необходимо выбрать файлы, которые будут обрабатываться"
+    FOLDER = "Необходимо выбрать папку, в которую будет записан результат"
+
+    OK = "Все корректно"
+    ERROR = "Что-то пошло не так... Попробуйте еще раз, убедившись, что загружены корректные файлы"
+
+
 class Domain:
     def __init__(self) -> None:
         self.files: List[str] = list()
         self.output_folder = ""
 
-    def update_files(self, files: List[str]) -> int:
+    def update_files(self, files: List[str]) -> str:
         self.files = files
 
-        return len(self.files) != 0
+        if len(self.files) == 0:
+            return Messages.FILES
 
-    def update_output_folder(self, folder):
+        return Messages.OK
+
+    def update_output_folder(self, folder: str) -> str:
         self.output_folder = folder
 
-        return self.output_folder != ""
+        if not self.output_folder:
+            return Messages.FOLDER
 
-    def process(self):
-        if not (len(self.files) != 0 and self.output_folder != ""):
-            return 0
+        return Messages.OK
 
+    def process(self) -> str:
+        if len(self.files) == 0:
+            return Messages.FILES
+
+        if self.output_folder == "":
+            return Messages.FOLDER
 
         try:
-            EPS = 1e-6
-
-            ITEMS = list(filter(lambda x: x, open("ParametersData/items", encoding="utf-8").read().strip().split("\t")))
-            CATEGORIES = list(filter(lambda x: x, open("ParametersData/categories", encoding="utf-8").read().split("\n")))
-            # print(ITEMS)
-            # print(CATEGORIES)
-
             result = pd.DataFrame(0., columns=["№ КС-2", "ТП/РП"] + ITEMS,
                                   index=[""] + list(map(str, range(1, len(self.files) + 1))))
             result = result.astype({'№ КС-2': 'str', 'ТП/РП': 'str'})
 
-            cnt = 0
             comp = lambda x: ((int(x.split("_")[0]), int(x.split("_")[1])) if "_" in x else (int(x), 1))
             for i, filename in enumerate(sorted(self.files, key=lambda filename: comp((filename.split("/")[-1]).split()[0]))):
                 i += 1
@@ -118,8 +134,7 @@ class Domain:
 
                 writer.save()
                 break
+            return Messages.OK
 
         except Exception as e:
-            print(str(e))
-
-
+            return Messages.ERROR
