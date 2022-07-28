@@ -1,5 +1,5 @@
 from __future__ import annotations
-from PyQt5.QtWidgets import QMainWindow, QScrollArea, QPushButton, QWidget, QVBoxLayout, QLabel
+from PyQt5.QtWidgets import QMainWindow, QScrollArea, QPushButton, QWidget, QVBoxLayout, QLabel, QFileDialog
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5 import QtCore
 
@@ -46,8 +46,15 @@ class MainWindow(QMainWindow):
         self.labels = list()
         self.set_up()
 
+    def connect(self):
+        self.file_select_button.clicked.connect(self.select_files)
+        self.output_file_select_button.clicked.connect(self.select_output_folder)
+        self.enter_button.clicked.connect(self.action.process)
+
     def set_up_relations(self) -> None:
         self.action = self.app.action
+
+        self.connect()
 
     def set_up(self) -> None:
         self.set_up_window()
@@ -148,12 +155,35 @@ class MainWindow(QMainWindow):
         self.file_select_label.setAlignment(QtCore.Qt.AlignCenter)
 
     def set_up_output_file_select_label(self):
-        self.output_file_select_label.setText("✓")
+        self.output_file_select_label.setText("✗")
 
         self.output_file_select_label.setFixedSize(50, 50)
         self.output_file_select_label.move(380, 110)
 
         self.output_file_select_label.setStyleSheet(
-            f"border: 1px solid black; border-radius: 5px; font-size: 30px; font-weight: 200; background: {Color.main1}; color: green;")
+            f"border: 1px solid black; border-radius: 5px; font-size: 30px; font-weight: 200; background: {Color.main1}; color: red;")
         self.output_file_select_label.setAlignment(QtCore.Qt.AlignCenter)
 
+    def select_files(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        files, _ = QFileDialog.getOpenFileNames(self, "QFileDialog.getOpenFileNames()", "",
+                                                "Excel files (*.xlsx)", options=options)
+
+        self.action.select_files(files)
+
+    def select_output_folder(self):
+        folder = QFileDialog.getExistingDirectory(self, 'Select Folder')
+        self.action.select_output_folder(folder)
+
+    def tick(self, label: QLabel):
+        label.setText("✓")
+
+        label.setStyleSheet(
+            f"border: 1px solid black; border-radius: 5px; font-size: 30px; font-weight: 200; background: {Color.main1}; color: green;")
+
+    def cross(self, label: QLabel):
+        label.setText("✗")
+
+        label.setStyleSheet(
+            f"border: 1px solid black; border-radius: 5px; font-size: 30px; font-weight: 200; background: {Color.main1}; color: red;")
