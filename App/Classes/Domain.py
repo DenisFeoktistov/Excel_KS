@@ -61,6 +61,8 @@ class Domain:
                 print(filename)
 
                 xl = pd.ExcelFile(f"{filename}")
+
+                filename = filename.split("/")[-1]
                 sheet_name = xl.sheet_names[0]
                 df1 = xl.parse(sheet_name)
 
@@ -137,4 +139,4 @@ class Domain:
             return Messages.OK
 
         except Exception as e:
-            return Messages.ERROR
+            return Messages.ERROR + "\n" + str(e)
