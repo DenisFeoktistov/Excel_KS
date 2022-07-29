@@ -163,7 +163,7 @@ class MainWindow(QMainWindow):
         self.select_output_folder_label.setAlignment(QtCore.Qt.AlignCenter)
 
     def set_up_error_message(self) -> None:
-        self.error_message.setWindowTitle("Сообщение")
+        self.error_message.setWindowTitle("Уведомление")
         self.error_message.setStyleSheet(f'border: 0px solid black; border-radius: 2px; font-size: 18px; font-weight: 400; background: {Color.MAIN1};')
 
     def select_files(self) -> None:

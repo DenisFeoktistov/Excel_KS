@@ -4,7 +4,6 @@ from __future__ import annotations
 import App.App as App
 import App.Classes.Domain as Domain
 import App.Classes.MainWindow as MainWindow
-
 from App.Classes.Domain import Messages
 
 
