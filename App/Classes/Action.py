@@ -38,3 +38,5 @@ class Action:
 
         if result != Messages.OK:
             self.main_window.show_error_message(result)
+        else:
+            self.main_window.show_error_message("Данные успешно обработаны")
