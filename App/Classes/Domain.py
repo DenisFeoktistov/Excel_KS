@@ -87,8 +87,9 @@ class Domain:
 
                             row[item_index] = row[item_index][:i1 - 1] + row[item_index][i2 + 1:]
 
-                            i3 = row[item_index].find(":")
-                            row[item_index] = row[item_index][:i3 + 1] + " " + row[item_index][i3 + 1:]
+                            if "номиналам: " not in row[item_index]:
+                                i3 = row[item_index].find(":")
+                                row[item_index] = row[item_index][:i3 + 1] + " " + row[item_index][i3 + 1:]
 
                         for item in ITEMS:
                             if item in row[item_index]:
