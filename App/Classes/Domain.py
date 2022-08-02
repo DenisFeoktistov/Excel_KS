@@ -2,14 +2,20 @@ from __future__ import annotations
 from typing import List
 
 
+import sys
 import os
 import pandas as pd
 
 
 EPS = 1e-6
 
-ITEMS = list(filter(lambda x: x, open("ParametersData/items", encoding="utf-8").read().strip().split("\t")))
-CATEGORIES = list(filter(lambda x: x, open("ParametersData/categories", encoding="utf-8").read().split("\n")))
+BASEPATH = "."
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    BASEPATH = sys._MEIPASS
+ITEMS_PATH = os.path.join(BASEPATH, "ParametersData/items")
+CATEGORIES_PATH = os.path.join(BASEPATH, "ParametersData/categories")
+ITEMS = list(filter(lambda x: x, open(ITEMS_PATH, encoding="utf-8").read().strip().split("\t")))
+CATEGORIES = list(filter(lambda x: x, open(CATEGORIES_PATH, encoding="utf-8").read().split("\n")))
 # print(ITEMS)
 # print(CATEGORIES)
 
