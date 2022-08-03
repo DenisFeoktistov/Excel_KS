@@ -168,13 +168,13 @@ class MainWindow(QMainWindow):
 
     def select_files(self) -> None:
         options = QFileDialog.Options()
-        files, _ = QFileDialog.getOpenFileNames(self, "QFileDialog.getOpenFileNames()", "",
+        files, _ = QFileDialog.getOpenFileNames(self, "Select files", "",
                                                 "Excel files (*.xlsx)", options=options)
 
         self.action.select_files(files)
 
     def select_output_folder(self) -> None:
-        folder = QFileDialog.getExistingDirectory(self, 'Select Folder')
+        folder = QFileDialog.getExistingDirectory(self, 'Select folder')
         self.action.select_output_folder(folder)
 
     def tick(self, label: QLabel) -> None:
